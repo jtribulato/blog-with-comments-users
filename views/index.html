@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to The Blog</title>
+    <meta name="description" content="Blog to blog any and all things">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Blog of Blogs</h1>
+        </header>
+        <main>
+
+            <hr>
+            <section>
+                <h2>Welcome to my Blog</h2>
+                <p class="introduction">Welcome to the blog of blogs. lorem ipsum etc etc etc.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur.
+                </p>
+                <hr>
+                 <form action="/blog-posts" method="post" id="js-post-form">
+                    <div class="form-area">
+                        <label for="blog-entry"><span class="label"> Add a post</span></label>
+                        <span class="js-input js-input-title">Title:</span><input type="text" name="blog-entry-title"
+                            id="js-title" placeholder="enter the title of your  post">
+                        <span class="js-input js-input-content">Post:</span><textarea type="text" name="blog-entry-content"
+                            id="js-content" placeholder="enter your post"></textarea>
+                        <span class="js-input js-input-author">Author:</span><input type="text" name="blog-entry-author"
+                            id="js-author" placeholder="enter your name">
+                        <span class="js-input js-input-publishDate">Date:</span><input type="date" name="blog-entry-publishDate"
+                            id="js-publishDate" placeholder="enter the date">
+                        <button type="submit">Submit your Post</button>
+                    </div>
+                </form>
+                <hr>
+                <ul class="blogListings js-blog-list">
+                </ul>
+            </section>
+        </main>
+    </div>
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+    <script src="/client.js"></script>
+</body>
+
+</html>

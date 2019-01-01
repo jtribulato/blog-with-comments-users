@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  label {
+    font-weight: 800;
+    font-size: 1.2em;
+  }
+  
+  button, input[type="text"] {
+    padding: 5px;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    cursor: pointer;
+  }
+  input, textarea {
+    width: 80%;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .post {
+    list-style: none;
+    padding-left: 0;
+    display: block;
+    color: black;
+    margin-bottom: 15px;
+  }
+  
+  .js-post-title {
+    font-size: 20px;
+    font-weight: 800;
+  }
+  
+  .js-post-author {
+    font-size: 14px;
+    font-weight: 800;
+    color: black;
+    font-style: italic;
+  }
+  
+  .js-post-content {
+    font-size: 14px;
+  }
+  
+  .js-post-publishDate {
+    font-size: 12px;
+    font-weight: 800;
+  }
+  
+  .js-input {
+    font-size: 15px;
+    font-weight: 800;
+  }
+  
+  
+  .form-area {
+    width: 80%;
+    display: grid;
+    margin: 0 auto;
+  }
+  
+  .label {
+    margin-bottom: 10px;
+  }
