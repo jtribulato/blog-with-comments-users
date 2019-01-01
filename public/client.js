@@ -39,7 +39,7 @@ var blogItemTemplate = (
         element.find('.js-post-title').text(post.title);
         element.find('.js-post-content').text(post.content);
         element.find('.js-post-author').text(post.author);
-        element.find('.js-post-publishDate').text(post.publishDate);
+        element.find('.js-post-publishDate').text(post.created);
         return element;
         
       });
@@ -55,7 +55,7 @@ var blogItemTemplate = (
         title: $(e.currentTarget).find('#js-title').val(),
         content: $(e.currentTarget).find('#js-content').val(),
         author: $(e.currentTarget).find('#js-author').val(),
-        publishDate: $(e.currentTarget).find('#js-publishDate').val()
+        created: $(e.currentTarget).find('#js-publishDate').val()
       });
     });
   }

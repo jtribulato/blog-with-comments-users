@@ -17,22 +17,12 @@ const blogSchema = mongoose.Schema({
 });
 
 // *virtuals* (http://mongoosejs.com/docs/guide.html#virtuals)
-// allow us to define properties on our object that manipulate
-// properties that are stored in the database. Here we use it
-// to generate a human readable string based on the address object
-// we're storing in Mongo.
+
 blogSchema.virtual("authorString").get(function() {
   return `${this.author.firstname} ${this.author.lastname}`.trim();
 });
 
-// // this virtual grabs the most recent grade for a restaurant.
-// blogSchema.virtual("grade").get(function() {
-//   const gradeObj =    
-//     this.grades.sort((a, b) => {
-//       return a.date - b.date;
-//     })[0] || {};
-//   return gradeObj.grade;
-// });
+
 
 blogSchema.methods.serialize = function() {
   return {
