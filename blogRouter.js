@@ -9,7 +9,7 @@ const {BlogPosts} = require('./models');
 
 // we're going to add some posts to blog
 // so there's some data to look at
-//title, content, author, publishDate
+//title, content, author, created
 
 BlogPosts.create(
   'Freedom to Build, Freedom to Write', 
@@ -27,12 +27,14 @@ BlogPosts.create(
 router.get('/', (req, res) => {
   res.json(BlogPosts.get());
 });
-
+router.get('/:id', (req, res) => {
+  res.json(BlogPosts.get());
+});
 
 
 router.post('/', jsonParser, (req, res) => {
   // ensure fields are in request body
-  const requiredFields = ['title', 'content','author','publishDate'];
+  const requiredFields = ['title', 'content','author','created'];
   for (let i=0; i<requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -41,10 +43,10 @@ router.post('/', jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
-  const item = BlogPosts.create(req.body.title, req.body.content,req.body.author,req.body.publishDate);
+  const item = BlogPosts.create(req.body.title, req.body.content,req.body.author,req.body.created);
   res.status(201).json(item);
 });
-//title, content, author, publishDate
+//title, content, author, created
 // Delete recipes (by id)!
 router.delete('/:id', (req, res) => {
   BlogPosts.delete(req.params.id);
@@ -54,7 +56,7 @@ router.delete('/:id', (req, res) => {
 
 router.put('/:id', jsonParser, (req, res) => {
 
-  const requiredFields = ['title', 'content','author','publishDate', 'id'];
+  const requiredFields = ['title', 'content','author','created', 'id'];
   for (let i=0; i<requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -76,7 +78,7 @@ router.put('/:id', jsonParser, (req, res) => {
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
-    publishDate: req.body.publishDate
+    created: req.body.created
   });
   //res.status(200).end();
   res.json(updatedItem);
