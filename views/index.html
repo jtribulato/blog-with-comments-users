@@ -29,21 +29,21 @@
                     cillum dolore eu fugiat nulla pariatur.
                 </p>
                 <hr>
-                 <form action="/blog-posts" method="post" id="js-post-form">
+                <form action="/posts" method="post" id="js-post-form">
                     <div class="form-area">
                         <label for="blog-entry"><span class="label"> Add a post</span></label>
-                        <span class="js-input js-input-title">Title:</span><input type="text" name="blog-entry-title"
-                            id="js-title" placeholder="enter the title of your  post">
-                        <span class="js-input js-input-content">Post:</span><textarea type="text" name="blog-entry-content"
-                            id="js-content" placeholder="enter your post"></textarea>
-                        <span class="js-input js-input-author">Author:</span><input type="text" name="blog-entry-author"
-                            id="js-author" placeholder="enter your name">
-                        <span class="js-input js-input-publishDate">Date:</span><input type="date" name="blog-entry-publishDate"
-                            id="js-publishDate" placeholder="enter the date">
+                        <span class="js-input js-input-title">Title:</span>
+                        <input type="text" name="blog-entry-title" id="js-title" placeholder="enter the title of your  post">
+                        <span class="js-input js-input-content">Post:</span>
+                        <textarea type="text" name="blog-entry-content" id="js-content" placeholder="enter your post"></textarea>
+                        <span class="js-input js-input-author">Author:</span>
+                        <input type="text" name="blog-entry-author" id="js-author" placeholder="enter your name">
+                        <span class="js-input js-input-publishDate">Date:</span>
+                        <input type="date" name="blog-entry-publishDate" id="js-publishDate" placeholder="enter the date">
                         <button type="submit">Submit your Post</button>
                     </div>
                 </form>
-                <hr>
+                <hr class="underbutton ">
                 <ul class="blogListings js-blog-list">
                 </ul>
             </section>
@@ -53,5 +53,4 @@
         crossorigin="anonymous"></script>
     <script src="/client.js"></script>
 </body>
-
 </html>

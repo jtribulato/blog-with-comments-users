@@ -10,7 +10,7 @@ var blogItemTemplate = (
 
       '<li class="js-post-content">' +
       '</li>' +
-      '<li>  <span class="js-post-author">' +
+      '<li><span class="js-post-author">' +
       '</span> - ' +
       '<span class="js-post-publishDate">' +
       '</span>' +
@@ -50,12 +50,18 @@ var blogItemTemplate = (
   function handlePostAdd() {
     $('#js-post-form').submit(function(e) {
       e.preventDefault();
+      let author = $(e.currentTarget).find('#js-author').val();
+      console.log(author);
+      let authorSplit =  author.split(' ') ;
       
       addPost({
         title: $(e.currentTarget).find('#js-title').val(),
         content: $(e.currentTarget).find('#js-content').val(),
-        author: $(e.currentTarget).find('#js-author').val(),
-        created: $(e.currentTarget).find('#js-publishDate').val()
+        author: {
+          firstName : authorSplit[0],
+          lastName: authorSplit[1]
+        },
+        created:  $(e.currentTarget).find('#js-publishDate').val()
       });
     });
   }
