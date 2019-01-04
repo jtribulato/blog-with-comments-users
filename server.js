@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const { DATABASE_URL, PORT } = require('./config');
-const {BlogPosts} = require('./models');
+const { Author, BlogPost } = require('./models');
 
 
 const app = express();
@@ -20,33 +20,40 @@ app.use(express.json());
 app.use(express.static('public'));
 
 
-
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
- app.get('/posts', (req, res) => {
-   BlogPosts
+app.get('/author', (req, res) => {
+  Author
       .find()
-      .then( posts => {
-       res.json(posts.map(post => post.serialize()));
+      .then( authors => {
+       res.json(authors.map(author => {
+          return {
+            id: author._id,
+            name: `${author.firstName} ${author.lastName}`,
+            userName: author.userName
+          }
+       }));
       })
       .catch(err => {
-       res.status(500).json({ error: "something went terribly wrong"});
+       res.status(500).json({ error: "something went terribly wrong Aget"});
       });
  });
 
- app.get('/posts/:id', (req, res) => {
-  BlogPosts
+ 
+
+ app.get('/author/:id', (req, res) => {
+  Author
     .findById(req.params.id)
-    .then(post => res.json(post.serialize()))
+    .then(author => res.json(Author.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: 'something went horribly awry' });
     });
 });
 
-app.post('/posts', (req, res) => {
+app.post('/author', (req, res) => {
   const requiredFields = ['title', 'content', 'author'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -57,14 +64,14 @@ app.post('/posts', (req, res) => {
     }
   }
 
-  BlogPosts
+  BlogPost
     .create({
       title: req.body.title,
       content: req.body.content,
       author: req.body.author ,
       created: req.body.created
     })
-    .then(BlogPosts => res.status(201).json(BlogPosts.serialize()))
+    .then(BlogPost => res.status(201).json(BlogPost.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: 'Something went wrong' });
@@ -73,7 +80,7 @@ app.post('/posts', (req, res) => {
 });
 
 app.delete('/posts/:id', (req, res) => {
-  BlogPosts
+  BlogPost
     .findByIdAndRemove(req.params.id)
     .then(() => {
       res.status(204).json({ message: 'success' });
@@ -100,7 +107,7 @@ app.put('/posts/:id', (req, res) => {
     }
   });
 
-  BlogPosts
+  BlogPost
     .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedPost => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
@@ -108,7 +115,7 @@ app.put('/posts/:id', (req, res) => {
 
 
 app.delete('/:id', (req, res) => {
-  BlogPosts
+  BlogPost
     .findByIdAndRemove(req.params.id)
     .then(() => {
       console.log(`Deleted blog post with id \`${req.params.id}\``);
@@ -116,9 +123,86 @@ app.delete('/:id', (req, res) => {
     });
 });
 
+app.get('/posts', (req, res) => {
+  BlogPost
+      .find()
+      .then( posts => {
+       res.json(posts.map(post => post.serialize()))
+      })
+      .catch(err => {
+       res.status(500).json({ error: "something went terribly wrong Pget"});
+      });
+ });
+
+ 
+
+ app.get('/posts/:id', (req, res) => {
+  BlogPost
+    .findById(req.params.id)
+    .then(post => {
+      res.json({
+        id: post._id,
+        author: post.authorName,
+        content: post.content,
+        title: post.title,
+        comments: post.comments
+      })
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went horribly awry' });
+    });
+});
+
+app.post('/posts', (req, res) => {
+  const requiredFields = ['title', 'content', 'author_id'];
+  requiredFields.forEach(field => {
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  });
+
+  Author
+    .findById(req.body.author_id)
+    .then(author => {
+      if (author) {
+        BlogPost
+          .create({
+            title: req.body.title,
+            content: req.body.content,
+            author: req.body.id
+          })
+          .then(blogPost => res.status(201).json({
+              id: blogPost.id,
+              author: `${author.firstName} ${author.lastName}`,
+              content: blogPost.content,
+              title: blogPost.title,
+              comments: blogPost.comments
+            }))
+          .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Something went wrong' });
+          });
+      }
+      else {
+        const message = `Author not found`;
+        console.error(message);
+        return res.status(400).send(message);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went horribly awry' });
+    });
+});
+
+
 app.use('*', function (req, res) {
   res.status(404).json({ message: 'Not Found' });
 });
+
 
 
 let server;

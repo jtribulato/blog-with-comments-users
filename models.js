@@ -6,40 +6,76 @@ mongoose.Promise = global.Promise;
 const uuid = require('uuid');
 
 // this is our schema to represent a blog
-const blogSchema = mongoose.Schema({
+const authorSchema = mongoose.Schema({
+  firstName: 'string',
+  lastName: 'string',
+  userName: {
+    type: 'string',
+    unique: true
+  }
+});
+const commentSchema = mongoose.Schema({ content: 'string' })
+
+const blogPostSchema = mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
-  author:  {  
-    firstName : String,
-    lastName : String
-  },
+  author:  { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },  
+  comments: [commentSchema],
   created: { type: Date, default: Date.now() }  
 });
 
-     
+blogPostSchema.pre('find', function(next) {
+  this.populate('author');
+  next();
+});
+blogPostSchema.pre('findOne', function(next) {
+  this.populate('author');
+  next();
+});  
 
 // *virtuals* (http://mongoosejs.com/docs/guide.html#virtuals)
 
-blogSchema.virtual("authorString").get(function() {
+blogPostSchema.virtual("authorName").get(function() {
   return `${this.author.firstName} ${this.author.lastName}`.trim();
 });
 
 
 
-blogSchema.methods.serialize = function() {
+
+blogPostSchema.methods.serialize = function() {
   return {
     id: this._id,
-    title: this.title,
-    author: this.authorString,
+    author: this.authorName,
     content: this.content,
-    created: this.created.toDateString() 
+    title: this.title,
+    comments: this.comments
+  };
+};
+
+authorSchema.methods.serialize = function() {
+  return {
+    id: this._id,
+    firstName: this.firstName,
+    lastName: this.lastName,
+    userName: this.userName
+     
   };
 };
 
 // note that all instance methods and virtual properties on our
 // schema must be defined *before* we make the call to `.model`.
-const BlogPosts = mongoose.model("BlogPosts", blogSchema);
 
-module.exports = { BlogPosts };
+const Author = mongoose.model('Author', authorSchema);
+const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
+// BlogPost
+//   .findOne({
+//     title: 'some title'
+//   })
+//   .then(post => {
+//     post.comments.push({ content: 'a comment on that last comment' });
+//     post.save();
+//   });
+
+module.exports = { BlogPost, Author}; 
 

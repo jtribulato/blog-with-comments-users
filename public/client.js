@@ -25,7 +25,7 @@ var blogItemTemplate = (
   );
   
   
-  const BLOG_URL = '/posts';
+  const BLOG_URL = '/BlogPost';
   
   
   function getAndDisplayPosts() {
@@ -47,13 +47,17 @@ var blogItemTemplate = (
     });
   }
   
+  function removeSpaceRegExp(string) {
+    return string.replace(/w[ ]{2,}\w/g, '$&'); // $& means the whole matched string
+  }
+
   function handlePostAdd() {
     $('#js-post-form').submit(function(e) {
       e.preventDefault();
       let author = $(e.currentTarget).find('#js-author').val();
       console.log(author);
-      let authorSplit =  author.split(' ') ;
-      
+      let authorSplit =  author.split(' ');
+    
       addPost({
         title: $(e.currentTarget).find('#js-title').val(),
         content: $(e.currentTarget).find('#js-content').val(),
