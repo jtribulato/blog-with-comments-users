@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-app.get('/author', (req, res) => {
+app.get('/authors', (req, res) => {
   Author
       .find()
       .then( authors => {
@@ -41,19 +41,9 @@ app.get('/author', (req, res) => {
       });
  });
 
- 
 
- app.get('/author/:id', (req, res) => {
-  Author
-    .findById(req.params.id)
-    .then(author => res.json(Author.serialize()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: 'something went horribly awry' });
-    });
-});
 
-app.post('/author', (req, res) => {
+app.post('/authors', (req, res) => {
   const requiredFields = ['title', 'content', 'author'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
