@@ -68,7 +68,7 @@ app.post('/authors', (req, res) => {
             res.status(500).json({ error: 'Something went wrong' });
           });
       }
-    })
+    })   // end of then
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: 'something went horribly awry' });
@@ -77,7 +77,7 @@ app.post('/authors', (req, res) => {
 
 
 app.put('/authors/:id', (req, res) => {
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {    // seems strange  
     res.status(400).json({
       error: 'Request path id and request body id values must match'
     });
@@ -92,7 +92,7 @@ app.put('/authors/:id', (req, res) => {
   });
 
   Author
-    .findOne({ userName: updated.userName || '', _id: { $ne: req.params.id } })
+    .findOne({ userName: updated.userName || '', _id: { $ne: req.params.id } }) // not understaning this
     .then(author => {
       if(author) {
         const message = `Username already taken`;

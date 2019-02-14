@@ -68,14 +68,7 @@ authorSchema.methods.serialize = function() {
 const Author = mongoose.model('Author', authorSchema);
 const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
-// BlogPost
-//   .findOne({
-//     title: 'some title'
-//   })
-//   .then(post => {
-//     post.comments.push({ content: 'a comment on that last comment' });
-//     post.save();
-//   });
+
 
 module.exports = { BlogPost, Author}; 
 
